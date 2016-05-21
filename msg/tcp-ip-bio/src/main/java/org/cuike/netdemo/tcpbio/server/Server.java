@@ -1,6 +1,5 @@
 package org.cuike.netdemo.tcpbio.server;
 
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -9,7 +8,9 @@ public class Server {
 
 	private int port = 7956;
 	ServerSocket serverSocket = new ServerSocket(port);
+
 	public Server() throws IOException {
+
 	}
 
 	public void service() throws IOException {
@@ -17,10 +18,11 @@ public class Server {
 		while (true) {
 			try {
 				socket = serverSocket.accept();
-				new Thread(new EchoServerHandler(socket)).start();;
-			} catch (Exception e) {
+				new Thread(new EchoServerHandler(socket)).start();
+			} finally {
 				if (socket != null) {
 					socket.close();
+					socket = null;
 				}
 			}
 		}
