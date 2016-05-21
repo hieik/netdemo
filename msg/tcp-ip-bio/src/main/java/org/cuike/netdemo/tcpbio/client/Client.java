@@ -18,7 +18,7 @@ public class Client {
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintWriter(socket.getOutputStream(), true);
 			out.println("hello");
-			System.out.println("Send to server successed");
+			System.out.println("Send to server has successed");
 			String resp = in.readLine();
 			System.out.println(resp);
 		} catch (Exception e) {
