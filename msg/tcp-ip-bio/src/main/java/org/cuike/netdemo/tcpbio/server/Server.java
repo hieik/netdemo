@@ -3,6 +3,8 @@ package org.cuike.netdemo.tcpbio.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Server {
 
@@ -15,16 +17,17 @@ public class Server {
 
 	public void service() throws IOException {
 		Socket socket = null;
-		while (true) {
-			try {
+		ExecutorService connectionsPool = Executors.newFixedThreadPool(50);
+		try {
+			while (true) {
 				socket = serverSocket.accept();
-				new Thread(new EchoServerHandler(socket)).start();
-			} finally {
-				if (socket != null) {
-					socket.close();
-					System.out.println("Server has closed");
-					socket = null;
-				}
+				connectionsPool.execute(new EchoServerHandler(socket));
+			}
+		} finally {
+			if (serverSocket != null) {
+				serverSocket.close();
+				System.out.println("Server has closed");
+				serverSocket = null;
 			}
 		}
 	}
