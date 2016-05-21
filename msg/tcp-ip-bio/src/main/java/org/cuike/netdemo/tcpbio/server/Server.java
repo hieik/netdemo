@@ -22,6 +22,7 @@ public class Server {
 			} finally {
 				if (socket != null) {
 					socket.close();
+					System.out.println("Server has closed");
 					socket = null;
 				}
 			}
